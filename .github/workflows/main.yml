@@ -6,19 +6,28 @@ on:
     - main
 
 jobs:
- job1:
-   runs-on: ubuntu-dind
-   steps:
-   - name: Failed step
-     continue-on-error: true
-     run: |
-       echo "failed"
-       exit 1;
- job2:
-   runs-on: ubuntu-dind
-   needs: job1
-   steps:
-   - name: Echo step
-     run: |
-       echo "By pass failed"
+  job1:
+    runs-on: ubuntu-dind
+    steps:
+    - name: Failed step
+      continue-on-error: true
+      run: |
+        echo "failed"
+        exit 1;
+
+    - name: Failed step
+      continue-on-error: true
+      run: |
+        echo "failed"
+        exit 1;
+        echo "second failed step"
+        exit 1;
+        echo "third step"
+  job2:
+    runs-on: ubuntu-dind
+    needs: job1
+    steps:
+    - name: Echo step
+      run: |
+        echo "By pass failed"
    
