@@ -1,0 +1,24 @@
+name: Workflow For PoC
+
+on: 
+  push: 
+    branches:
+    - main
+
+jobs:
+ job1:
+   runs-on: ubuntu-dind
+   steps:
+   - name: Failed step
+     continue-on-error: true
+     run: |
+       echo "failed"
+       exit 1;
+ job2:
+   runs-on: ubuntu-dind
+   needs: job1
+   steps:
+   - name: Echo step
+     run: |
+       echo "By pass failed"
+   
