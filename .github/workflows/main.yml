@@ -9,6 +9,9 @@ on:
 jobs:
   job1:
     runs-on: ubuntu-dind
+    permissions:
+      contents: read
+      packages: write
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
