@@ -10,13 +10,12 @@ jobs:
     runs-on: ubuntu-dind
     steps:
     - name: Failed step
-      continue-on-error: true
       run: |
         echo "failed"
         exit 1;
 
     - name: Failed step
-      continue-on-error: true
+      if: always() && !cancelled()
       run: |
         echo "failed"
         exit 1;
