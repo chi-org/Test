@@ -4,14 +4,18 @@ on:
   push: 
     branches:
     - main
+  workflow_dispatch:
 
 jobs:
   job1:
     runs-on: ubuntu-dind
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
     - name: Failed step
       run: |
         echo "failed branch main"
+        ls
         exit 1;
 
     - name: Failed step
