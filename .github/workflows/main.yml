@@ -11,7 +11,7 @@ jobs:
     steps:
     - name: Failed step
       run: |
-        echo "failed"
+        echo "failed branch main"
         exit 1;
 
     - name: Failed step
