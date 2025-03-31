@@ -19,6 +19,7 @@ jobs:
       run: |
         echo "failed"
         exit 1;
+        sleep 60
         echo "second failed step"
         exit 1;
         echo "third step"
