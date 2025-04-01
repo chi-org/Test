@@ -20,7 +20,7 @@ jobs:
     - name: Output var step
       id: output_var
       run: |
-        echo "output_var=test" >> $GITHUB_ENV
+        echo "output_var=test" >> $GITHUB_OUTPUT
 
   job2:
     runs-on: ubuntu-dind
