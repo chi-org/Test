@@ -12,29 +12,22 @@ jobs:
     permissions:
       contents: read
       packages: write
+    outputs: 
+      output_var: ${{ steps.output_var.outputs.output_var }}
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    - name: Failed step
+    - name: Output var step
+      id: output_var
       run: |
-        echo "failed branch main"
-        ls
-        exit 1;
+        echo "output_var=test" >> $GITHUB_ENV
 
-    - name: Failed step
-      if: always() && !cancelled()
-      run: |
-        echo "failed"
-        sleep 60
-        exit 1;
-        echo "second failed step"
-        exit 1;
-        echo "third step"
   job2:
     runs-on: ubuntu-dind
     needs: job1
     steps:
-    - name: Echo step
+    - name: Use output vars step
       run: |
-        echo "By pass failed"
+        echo "Output var from job1: ${{ needs.job1.outputs.output_var }}"
+        exit 1;
    
