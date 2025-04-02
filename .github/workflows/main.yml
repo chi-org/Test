@@ -9,6 +9,7 @@ on:
         test_number:
           description: 'Input number:'
           required: true
+          type: number
 
 jobs:
   job1:
