@@ -21,13 +21,18 @@ jobs:
       id: output_var
       run: |
         echo "output_var=test" >> $GITHUB_OUTPUT
+        exit 1;
 
   job2:
     runs-on: ubuntu-dind
     needs: job1
+    if: always() && !cancelled()
     steps:
     - name: Use output vars step
+      if: failure()
       run: |
         echo "Output var from job1: ${{ needs.job1.outputs.output_var }}"
-        exit 1;
-   
+        echo "this job will run if job1 fails"
+    - name: Echo test
+      run: |
+        echo "This is a test step"
