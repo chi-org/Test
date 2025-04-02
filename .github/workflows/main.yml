@@ -10,6 +10,10 @@ on:
           description: 'Input number:'
           required: true
           type: number
+        github_sha:
+          description: 'GitHub SHA:'
+          required: true
+          type: string
 
 jobs:
   job1:
@@ -22,6 +26,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+    - name: Echo job id
+      run: |
+        echo "job id: ${{ github.run_id }}"
     - name: Output var step
       id: output_var
       run: |
