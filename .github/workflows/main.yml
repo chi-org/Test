@@ -5,6 +5,10 @@ on:
     branches:
     - main
   workflow_dispatch:
+      inputs:
+        test_number:
+          description: 'Input number:'
+          required: true
 
 jobs:
   job1:
@@ -29,10 +33,9 @@ jobs:
     if: always() && !cancelled()
     steps:
     - name: Use output vars step
-      if: failure()
       run: |
         echo "Output var from job1: ${{ needs.job1.outputs.output_var }}"
         echo "this job will run if job1 fails"
     - name: Echo test
       run: |
-        echo "This is a test step"
+        echo "This is a test number: ${{ github.event.inputs.test_number }}"
