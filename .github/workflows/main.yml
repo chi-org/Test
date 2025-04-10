@@ -16,6 +16,6 @@ jobs:
       uses: actions/checkout@v4
     - name: Test apply k8s
       run: |
-        echo ${{ secrets.SUDO_PW }} | sudo kubectl apply -f test-ns.yaml
+        kubectl apply -f test-ns.yaml
 
-        sudo kubectl get pod -A
+        kubectl get pod -A
