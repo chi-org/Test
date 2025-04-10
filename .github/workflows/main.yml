@@ -4,46 +4,16 @@ on:
   push: 
     branches:
     - main
-  workflow_dispatch:
-      inputs:
-        test_number:
-          description: 'Input number:'
-          required: true
-          type: number
-        github_sha:
-          description: 'GitHub SHA:'
-          required: true
-          type: string
 
 jobs:
   job1:
-    runs-on: ubuntu-dind
+    runs-on: self-hosted
     permissions:
       contents: read
       packages: write
-    outputs: 
-      output_var: ${{ steps.output_var.outputs.output_var }}
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
     - name: Echo job id
       run: |
         echo "job id: ${{ github.run_id }}"
-    - name: Output var step
-      id: output_var
-      run: |
-        echo "output_var=test" >> $GITHUB_OUTPUT
-        exit 1;
-
-  job2:
-    runs-on: ubuntu-dind
-    needs: job1
-    if: always() && !cancelled()
-    steps:
-    - name: Use output vars step
-      run: |
-        echo "Output var from job1: ${{ needs.job1.outputs.output_var }}"
-        echo "this job will run if job1 fails"
-    - name: Echo test
-      run: |
-        echo "This is a test number: ${{ github.event.inputs.test_number }}"
