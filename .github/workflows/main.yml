@@ -14,6 +14,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    - name: Echo job id
+    - name: Test apply k8s
       run: |
-        echo "job id: ${{ github.run_id }}"
+        kubectl apply -f test-ns.yaml
