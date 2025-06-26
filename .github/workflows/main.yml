@@ -19,3 +19,5 @@ jobs:
         kubectl apply -f test-ns.yaml
 
         kubectl get pod -A
+
+        echo hehhehe
