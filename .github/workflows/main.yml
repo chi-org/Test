@@ -36,7 +36,9 @@ jobs:
         exit 1
 
   job3:
-    needs: job2
+    needs: 
+      - job1
+      - job2
     if: needs.job1.outputs.run_job3 == 'true'
     runs-on: self-hosted
     permissions:
