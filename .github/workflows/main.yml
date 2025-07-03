@@ -38,7 +38,7 @@ jobs:
     needs: 
       - job2
       - job1
-    if: needs.job1.outputs.run_job3 == 'true'
+    if: always() && needs.job1.outputs.run_job3 == 'true'
     runs-on: self-hosted
     permissions:
       contents: read
