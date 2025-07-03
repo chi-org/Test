@@ -33,6 +33,7 @@ jobs:
     - name: Test 
       run: |
         echo test
+        exit 1
 
   job3:
     needs: job2
