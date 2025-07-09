@@ -13,7 +13,6 @@ flowchart TD
         I["Push Image to GHCR"]
   end
  subgraph s2["TEST"]
-        n3["Untitled Node"]
         J["<b>Clone Repo</b>"]
         K["Downcase REPO & Shorten Commit ID"]
         L["Login to GHCR"]
@@ -25,7 +24,6 @@ flowchart TD
         R["Upload Test Artifacts"]
   end
  subgraph s3["RELEASE"]
-        n4["Untitled Node"]
         S["<b>RELEASE</b>"]
         T["Setup Node.js"]
         U["Run Semantic Release"]

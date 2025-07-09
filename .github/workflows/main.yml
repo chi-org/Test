@@ -4,20 +4,48 @@ on:
   push: 
     branches:
     - main
+  pull_request: 
+    branches:
+    - main
 
 jobs:
   job1:
+    outputs:
+      run_job2: ${{ steps.test.outputs.run_job2 }}
+      run_job3: ${{ steps.test.outputs.run_job3 }}
     runs-on: self-hosted
     permissions:
       contents: read
       packages: write
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    - name: Test apply k8s
+    - name: Test 
+      id: test
       run: |
-        kubectl apply -f test-ns.yaml
+        echo test
+        echo "run_job2=false" >> $GITHUB_OUTPUT
+        echo "run_job3=true" >> $GITHUB_OUTPUT
+  
+  job2:
+    needs: job1
+    if: needs.job1.outputs.run_job2 == 'true'
+    runs-on: self-hosted
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - name: Test 
+      run: |
+        echo test
 
-        kubectl get pod -A
-
-        echo hehhehe
+  job3:
+    needs: 
+      - job2
+    if: always() && !cancelled() && needs.job1.outputs.run_job3 == 'true'
+    runs-on: self-hosted
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - name: Test 
+      run: |
+        echo test
