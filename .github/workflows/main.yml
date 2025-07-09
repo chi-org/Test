@@ -38,7 +38,7 @@ jobs:
     steps:
     - name: Test 
       run: |
-        echo test hehehe
+        echo test hohoo
 
   job3:
     needs: 
