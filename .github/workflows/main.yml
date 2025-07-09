@@ -8,6 +8,9 @@ on:
     branches:
     - main
 
+# concurrency:
+#   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+
 jobs:
   job1:
     outputs:
@@ -35,7 +38,7 @@ jobs:
     steps:
     - name: Test 
       run: |
-        echo test
+        echo test heheh
 
   job3:
     needs: 
