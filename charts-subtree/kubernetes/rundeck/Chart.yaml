@@ -1,0 +1,14 @@
+apiVersion: v2
+annotations:
+  category: Frontend
+name: rundeck
+description: SVTECH Rundeck
+engine: gotpl
+
+dependencies:
+  - name: common
+    repository: https://svtechnmaa.github.io/charts/artifacthub/
+    version: 1.x.x
+
+version: 1.6.8
+appVersion: "v1.1.0"

@@ -1,0 +1,9 @@
+annotations:
+  category: Infrastructure
+apiVersion: v2
+# Please make sure that version and appVersion are always the same.
+appVersion: 1.4.3
+description: A Library Helm Chart for grouping common logic between bitnami charts. This chart is not deployable by itself.
+name: common
+version: 1.4.3
+engine: gotpl
