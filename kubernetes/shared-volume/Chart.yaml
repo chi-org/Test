@@ -1,0 +1,14 @@
+apiVersion: v2
+annotations:
+  category: Template
+name: shared-volume
+description: Shared Longhorn volume
+engine: gotpl
+
+dependencies:
+  - name: common
+    repository: https://svtechnmaa.github.io/charts/artifacthub/
+    version: 1.x.x
+
+version: 1.0.2
+appVersion: "v1.0.0"

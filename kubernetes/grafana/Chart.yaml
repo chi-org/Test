@@ -1,0 +1,14 @@
+apiVersion: v2
+annotations:
+  category: Frontend
+name: grafana
+description: SVTECH Grafana
+engine: gotpl
+
+dependencies:
+  - name: common
+    repository: https://svtechnmaa.github.io/charts/artifacthub/
+    version: 1.x.x
+
+version: 1.2.6
+appVersion: "v1.0.0"

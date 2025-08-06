@@ -1,0 +1,385 @@
+global:
+  externalIP: "" # externalIP for CICD
+  rundeck:
+    offlineLogFolder: /data/offlineLogFolder/
+  mariadb-galera:
+    enabled: true
+  sharedVolume:
+    enabled: true
+  # Define the shared persistence volume here. So that the sub-chart will loop via this list to create the PVClaim if sub-chart name is exists in `shareFor`
+  sharedPersistenceVolume:
+    - volumeName: automation-repo-volume
+      pvcName: automation-repo-pvc
+      storageSize: 2Gi
+      path: /opt/SVTECH-Junos-Automation
+      accessModes: ReadWriteMany
+      shareFor:
+        - preparation
+        - rundeck
+        - rundeck-option-provider
+        - debuger
+        - csv-view
+        - init-data-grafana
+        - icinga2
+        - icinga2-satellite
+      storageClass: seaweedfs-storage
+      # storageClass: automation-repo-hostpath # for hostPath PV
+      # folderName: repo_automation # for hostPath PV
+
+    - volumeName: icinga2-zones-volume
+      pvcName: icinga2-zones-pvc
+      storageSize: 2Gi
+      path: /etc/icinga2/zones.d
+      accessModes: ReadWriteMany
+      shareFor:
+        - icinga2
+        - rundeck
+        - rundeck-option-provider
+        - debuger
+      storageClass: seaweedfs-storage
+       # storageClass: icinga2-zones-hostpath # for hostPath PV
+      # folderName: icinga2_zones # for hostPath PV
+
+    - volumeName: icinga2-conf-volume
+      pvcName: icinga2-conf-pvc
+      storageSize: 100Mi
+      path: /etc/icinga2/conf.d
+      accessModes: ReadWriteMany
+      shareFor:
+        - icinga2
+        - debuger
+      storageClass: seaweedfs-storage
+      # storageClass: icinga2-conf-hostpath # for hostPath PV
+      # folderName: icinga2_conf # for hostPath PV
+
+    # - volumeName: icinga2-scripts-volume
+    #   pvcName: icinga2-scripts-pvc
+    #   storageSize: 100Mi
+    #   path: /etc/icinga2/scripts
+    #   accessModes: ReadWriteOnce #ReadWriteMany
+    #   shareFor:
+    #     - preparation
+    #     - icinga2
+    #     - debuger
+    #   storageClass: icinga2-scripts-hostpath # for hostPath PV
+    #   folderName: icinga2_scripts # for hostPath PV
+
+    - volumeName: icinga2-plugins-volume
+      pvcName: icinga2-plugins-pvc
+      storageSize: 2Gi
+      path: /usr/share/icinga2/plugins/libexec
+      accessModes: ReadWriteMany
+      shareFor:
+        - icinga2
+        - debuger
+        - icinga2-satellite
+      storageClass: seaweedfs-storage
+      # storageClass: icinga2-plugins-hostpath # for hostPath PV
+      # folderName: icinga2_plugins # for hostPath PV
+
+    # - volumeName: icinga2-output-volume
+    #   pvcName: icinga2-output-pvc
+    #   storageSize: 3Gi
+    #   path: /var/tmp/output/
+    #   accessModes: ReadWriteOnce #ReadWriteMany
+    #   shareFor:
+    #     - icinga2
+    #     - debuger
+
+    - volumeName: gitlist-data-volume
+      pvcName: gitlist-data-pvc
+      storageSize: 2Gi
+      path: /opt/gitlist
+      accessModes: ReadWriteMany
+      shareFor:
+        - gitlist
+        - rundeck
+        - debuger
+      storageClass: seaweedfs-storage
+      # storageClass: gitlist-data-hostpath # for hostPath PV
+      # folderName: gitlist # for hostPath PV
+
+    - volumeName: nagvis-maps-volume
+      pvcName: nagvis-maps-pvc
+      storageSize: 2Gi
+      path: /usr/share/nagvis/etc/maps
+      accessModes: ReadWriteMany
+      shareFor:
+        - nagvis
+        - rundeck
+        - debuger
+      storageClass: seaweedfs-storage
+      # storageClass: nagvis-maps-hostpath # for hostPath PV
+      # folderName: nagvis_maps # for hostPath PV
+
+    - volumeName: rundeck-var-volume
+      pvcName: rundeck-var-pvc
+      storageSize: 10Gi
+      path: /home/rundeck/var
+      accessModes: ReadWriteMany
+      shareFor:
+        - rundeck
+        - debuger
+      storageClass: seaweedfs-storage
+      # storageClass: rundeck-var-hostpath # for hostPath PV
+      # folderName: rundeck_var # for hostPath PV
+
+    - volumeName: nagvis-auth-db-volume
+      pvcName: nagvis-auth-db-pvc
+      storageSize: 1Gi
+      path: /usr/share/nagvis/etc
+      subPath: auth.db
+      accessModes: ReadWriteMany
+      shareFor:
+        - nagvis
+        - rundeck
+      storageClass: seaweedfs-storage
+      # storageClass: nagvis-auth-db-hostpath # for hostPath PV
+      # folderName: nagvis_auth_db # for hostPath PV
+
+    - volumeName: rundeck-etc-config-volume
+      pvcName: rundeck-etc-config-pvc
+      storageSize: 1Gi
+      path: /home/rundeck/etc
+      accessModes: ReadWriteMany
+      shareFor:
+        - rundeck
+        - debuger
+      storageClass: seaweedfs-storage
+      # storageClass: rundeck-etc-config-hostpath # for hostPath PV
+      # folderName: rundeck-etc-config # for hostPath PV
+
+    - volumeName: rundeck-jsnapy-volume
+      pvcName: rundeck-jsnapy-pvc
+      storageSize: 10Gi
+      path: /var/lib/rundeck/jsnapy
+      accessModes: ReadWriteMany
+      shareFor:
+        - rundeck
+        - rundeck-option-provider
+        - debuger
+      storageClass: seaweedfs-storage
+      # storageClass: rundeck-jsnapy-hostpath # for hostPath PV
+      # folderName: rundeck_jsnapy # for hostPath PV
+
+    - volumeName: rundeck-backup-volume
+      pvcName: rundeck-backup-pvc
+      storageSize: 10Gi
+      path: /opt/backup
+      accessModes: ReadWriteMany
+      shareFor:
+        - rundeck
+        - debuger
+      storageClass: seaweedfs-storage
+      # storageClass: rundeck-backup-hostpath # for hostPath PV
+      # folderName: rundeck_backup # for hostPath PV
+
+    - volumeName: csv-output-volume
+      pvcName: csv-output-pvc
+      storageSize: 10Gi
+      path: /opt/csv-output
+      accessModes: ReadWriteMany
+      shareFor:
+        - rundeck
+        - csv-view
+        - debuger
+      storageClass: seaweedfs-storage
+      # storageClass: csv-output-hostpath # for hostPath PV
+      # folderName: csv_output # for hostPath PV
+
+    - volumeName: thruk-volume
+      pvcName: thruk-pvc
+      storageSize: 30Mi
+      path: /etc/thruk
+      accessModes: ReadWriteMany
+      shareFor:
+        - thruk
+        - rundeck
+      storageClass: seaweedfs-storage
+      # storageClass: thruk-hostpath # for hostPath PV
+      # folderName: thruk # for hostPath PV   
+
+    - volumeName: icingaweb-volume
+      pvcName: icingaweb-pvc
+      storageSize: 10Mi
+      path: /data
+      accessModes: ReadWriteMany
+      shareFor:
+        - icingaweb
+      storageClass: seaweedfs-storage
+      # storageClass: icingaweb-hostpath # for hostPath PV
+      # folderName: icingaweb_conf # for hostPath PV
+
+    # snmp-manager volume
+    - volumeName: snmp-manager-volume
+      pvcName: snmp-manager-pvc
+      storageSize: 10Mi
+      path: /etc/snmptt/
+      accessModes: ReadWriteMany
+      shareFor:
+        - snmp-manager
+      storageClass: seaweedfs-storage
+      # storageClass: snmp-manager-hostpath # for hostPath PV
+      # folderName: snmp-manager-conf # for hostPath PV
+
+timezone: Asia/Ho_Chi_Minh
+
+init:
+  image:
+    registry: docker.io
+    repository: busybox
+    tag: 1.33
+
+    pullPolicy: IfNotPresent
+
+image:
+  repository: svtechnmaa/svtech_rundeck
+  tag: v1.2.10
+
+  pullPolicy: IfNotPresent
+
+clusterDomain: cluster.local
+commonAnnotations:
+  helm.sh/hook-weight: "0"
+commonLabels: {}
+
+replicaCount: 1
+
+updateStrategy: RollingUpdate
+podManagementPolicy: OrderedReady
+podAffinityPreset: ""
+podAntiAffinityPreset: soft
+nodeAffinityPreset:
+  ## Node affinity type
+  ## Allowed values: soft, hard
+  type: ""
+  ## Node label key to match
+  ## E.g.
+  ## key: "kubernetes.io/e2e-az-name"
+  ##
+  key: ""
+  ## Node label values to match
+  ## E.g.
+  ## values:
+  ##   - e2e-az1
+  ##   - e2e-az2
+  ##
+  values: []
+
+
+## Affinity for pod assignment
+## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
+##
+affinity: {}
+
+## Node labels for pod assignment
+nodeSelector: {}
+
+## Tolerations for pod assignment
+tolerations: []
+
+## Extra volumes to add to the deployment
+extraVolumes: []
+
+## Extra volume mounts to add to the container
+extraVolumeMounts: []
+
+securityContext:
+  enabled: false
+  fsGroup: 0
+  runAsUser: 0
+
+resources:
+  limits: {}
+  #   cpu: 100m
+  #   memory: 128Mi
+  requests: {}
+  #   cpu: 100m
+  #   memory: 128Mi
+
+
+livenessProbe:
+  enabled: false
+  initialDelaySeconds: 180
+  periodSeconds: 45
+  timeoutSeconds: 30
+  successThreshold: 1
+  failureThreshold: 6
+readinessProbe:
+  enabled: false
+  initialDelaySeconds: 60
+  periodSeconds: 45
+  timeoutSeconds: 30
+  successThreshold: 1
+  failureThreshold: 6
+
+## Custom Liveness probe
+customLivenessProbe: {}
+
+## Custom Readiness probe
+customReadinessProbe: {}
+
+## Container ports
+containerPorts:
+  # icinga2Api: 5665
+  # livestatus: 6558
+
+service:
+  ## Service type
+  ##
+  type: ClusterIP
+  port: 4440
+
+  # loadBalancerIP:
+  # loadBalancerSourceRanges:
+  # - 10.10.10.0/24
+
+  # externalIPs: ["10.98.0.143"]
+
+  ## Set the Cluster IP to use
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#choosing-your-own-ip-address
+  ##
+  # clusterIP: None
+  ## Provide any additional annotations which may be required
+  ##
+  annotations: {}
+  ## Set the service SessionAffinity for session stickiness
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#proxy-mode-userspace
+  sessionAffinity: ClientIP
+
+  # ## Customize the SessionAffinity configuration. The default value for sessionAffinityConfig.clientIP.timeoutSeconds is 10800 (3 hours)
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 7200
+
+rundeckConfig:
+  mysqlHost: mariadb
+
+  # Options variable
+  IMPORT_NMS_JOB: "true"
+  IMPORT_AUTOMATION_JOB: "true"
+  IMPORT_AUDIT_JOB: "true"
+  OVERRIDE_IMPORT_JOB: "false"
+  RUNDECK_OPTION_PROVIDER_URL: http://rundeck-option-provider:1111
+  HOST_IP: "10.98.0.144"
+  # Variable for Icinga
+  ICINGA2_REPORT_URL: http://icinga2-report:8888
+  ICINGA2_API_HOST: icinga2
+  ICINGA2_CONTAINER: "true"
+  # Base variable
+  RUNDECK_SERVER_FORWARDED: "true"
+  RUNDECK_SERVER_CONTEXT_PATH: /rundeck
+  RUNDECK_GRAILS_URL: http://rundeck:4440/rundeck
+  RUNDECK_SERVER_ADDRESS: "0.0.0.0"
+  # RUNDECK_DATABASE_URL: jdbc:h2:file:/home/rundeck/server/data/grailsdb;DB_CLOSE_ON_EXIT=FALSE;NON_KEYWORDS=MONTH,HOUR,MINUTE,YEAR,SECONDS
+  # RUNDECK_DATABASE_URL: jdbc:mysql://mariadb/rundeck?autoReconnect=true&useSSL=false
+  RUNDECK_DATABASE: rundeck
+  RUNDECK_DATABASE_DRIVER: org.mariadb.jdbc.Driver
+  RUNDECK_DATABASE_USERNAME: rundeck
+  RUNDECK_DATABASE_PASSWORD: juniper@123
+  RUNDECK_ADMIN_USER: thrukadmin
+  RUNDECK_ADMIN_PASSWORD: thrukadmin
+  RUNDECK_ADMIN_TOKEN: UkTttnpfh5MC9A3O859k43wPhhWbCsf8
+  ZONE_PREFIX: zone
+  DISCOVER_FOLDER: /etc/icinga2/zones.d
+  ALL_CONFIG_FOLDER: /etc/icinga2/zones.d/all_config

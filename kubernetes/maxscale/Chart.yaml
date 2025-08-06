@@ -1,0 +1,14 @@
+apiVersion: v2
+annotations:
+  category: Maxscale
+name: maxscale
+description: SVTECH Maxscale
+engine: gotpl
+
+dependencies:
+  - name: common
+    repository: https://svtechnmaa.github.io/charts/artifacthub/
+    version: 1.x.x
+
+version: 1.4.6
+appVersion: "v1.0.0"
