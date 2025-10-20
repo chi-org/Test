@@ -1,9 +1,0 @@
-{
-    "branches": ["main"],
-    "repositoryUrl": "https://github.com/chi-org/charts",
-    "plugins": [
-        "@semantic-release/commit-analyzer",
-        "@semantic-release/release-notes-generator",
-        "@semantic-release/github"
-    ]
-}
