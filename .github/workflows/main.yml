@@ -38,7 +38,7 @@ jobs:
         username: ${{ vars.MAIL_USERNAME }}
         password: ${{ secrets.MAIL_PASSWORD }}
         subject: "TEST MAIL"
-        body: |
+        html_body: |
           <a href="https://google.com">#hehehe</a>
         to: phamtranlinhchi02@gmail.com
         from: phamtranlinhchi02@gmail.com
