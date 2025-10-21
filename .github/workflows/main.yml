@@ -39,18 +39,20 @@ jobs:
         password: ${{ secrets.MAIL_PASSWORD }}
         subject: "TEST MAIL"
         html_body: |
-            Hi ${{ env.COMMITTER_NAME || 'contributors' }},
-            <br /><br />
-            The workflow #${{ github.run_number }} that run commit #${{ env.COMMIT_ID }} from repo ${{ github.repository }} has failed.
-            Link to the commit: ${{ github.server_url }}/${{ github.repository }}/commit/${{ env.COMMIT_FULL_ID }}
-            <br /><br />
-            After the failure, the workflow will wait for ${{ env.WAIT_SECONDS }}s before cleaning up the environment.
-            Please check the workflow details and take appropriate action at: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            <br /><br />
-            For more information, please contact the SRE team.
-            <br /><br />
-            Best regards,
+            <p>Hi ${{ env.COMMITTER_NAME || 'contributors' }},</p>
+            
+            <p>The workflow #${{ github.run_number }} that run commit #${{ env.COMMIT_ID }} from repo ${{ github.repository }} has failed.</p>
+            <p>Link to the commit: ${{ github.server_url }}/${{ github.repository }}/commit/${{ env.COMMIT_FULL_ID }}</p>
+            
+            <p>After the failure, the workflow will wait for ${{ env.WAIT_SECONDS }}s before cleaning up the environment.</p>
+            <p>Please check the workflow details and take appropriate action at: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}</p>
+            
+            <p>For more information, please contact the SRE team.</p>
+            
+            <p>
+            Best regards,<br />
             SRE Team
+            </p>
         to: phamtranlinhchi02@gmail.com
         from: phamtranlinhchi02@gmail.com
   
