@@ -38,7 +38,7 @@ jobs:
         username: ${{ vars.MAIL_USERNAME }}
         password: ${{ secrets.MAIL_PASSWORD }}
         subject: "TEST MAIL"
-        body: |
+        html_body: |
             Hi ${{ env.COMMITTER_NAME || 'contributors' }},
 
             The workflow #${{ github.run_number }} that run commit #${{ env.COMMIT_ID }} from repo ${{ github.repository }} has failed.
