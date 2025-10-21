@@ -41,11 +41,12 @@ jobs:
         html_body: |
             <p>Hi ${{ env.COMMITTER_NAME || 'contributors' }},</p>
             
-            <p>The workflow #${{ github.run_number }} that run commit #${{ env.COMMIT_ID }} from repo ${{ github.repository }} has failed.</p>
-            <p>Link to the commit: ${{ github.server_url }}/${{ github.repository }}/commit/${{ env.COMMIT_FULL_ID }}</p>
+            <p>The workflow #${{ github.run_number }} that run commit <a href="${{ github.server_url }}/${{ github.repository }}/commit/${{ env.COMMIT_FULL_ID }}">#${{ env.COMMIT_ID }}</a> from repo ${{ github.repository }} has failed.</p>
             
-            <p>After the failure, the workflow will wait for ${{ env.WAIT_SECONDS }}s before cleaning up the environment.</p>
-            <p>Please check the workflow details and take appropriate action at: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}</p>
+            <p>
+              After the failure, the workflow will wait for ${{ env.WAIT_SECONDS }}s before cleaning up the environment.<br />
+              Please check the workflow details and take appropriate action at: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            </p>
             
             <p>For more information, please contact the SRE team.</p>
             
