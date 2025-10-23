@@ -17,7 +17,7 @@ jobs:
       run_job2: ${{ steps.test.outputs.run_job2 }}
       run_job3: ${{ steps.test.outputs.run_job3 }}
     runs-on: ubuntu-dind
-    if: ${{ ! ( ('true' == 'true' && 'success' != 'success') || ('true' == 'true' && 'success' != 'success') ) }}
+    if: ${{ ! ( ('true' == 'true' && 'false' != 'success') || ('true' == 'true' && 'success' != 'success') ) }}
     permissions:
       contents: read
       packages: write
