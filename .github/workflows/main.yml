@@ -8,12 +8,16 @@ on:
     branches:
     - main
 
+# concurrency:
+#   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+
 jobs:
   job1:
     outputs:
       run_job2: ${{ steps.test.outputs.run_job2 }}
       run_job3: ${{ steps.test.outputs.run_job3 }}
-    runs-on: self-hosted
+    runs-on: ubuntu-dind
+    if: ${{ ! ( ('false' == 'true' && 'false' != 'success') || ('true' == 'true' && 'success' != 'success') ) }}
     permissions:
       contents: read
       packages: write
@@ -24,28 +28,59 @@ jobs:
         echo test
         echo "run_job2=false" >> $GITHUB_OUTPUT
         echo "run_job3=true" >> $GITHUB_OUTPUT
-  
-  job2:
-    needs: job1
-    if: needs.job1.outputs.run_job2 == 'true'
-    runs-on: self-hosted
-    permissions:
-      contents: read
-      packages: write
-    steps:
-    - name: Test 
-      run: |
-        echo test
+        echo hehe
 
-  job3:
-    needs: 
-      - job2
-    if: always() && !cancelled() && needs.job1.outputs.run_job3 == 'true'
-    runs-on: self-hosted
-    permissions:
-      contents: read
-      packages: write
-    steps:
-    - name: Test 
-      run: |
-        echo test
+    # - name: Send mail to committer
+    #   continue-on-error: true
+    #   uses: dawidd6/action-send-mail@v6
+    #   with:
+    #     server_address: smtp.gmail.com
+    #     server_port: 465
+    #     secure: true
+    #     username: ${{ vars.MAIL_USERNAME }}
+    #     password: ${{ secrets.MAIL_PASSWORD }}
+    #     subject: "TEST MAIL"
+    #     html_body: |
+    #         <p>Hi ${{ env.COMMITTER_NAME || 'contributors' }},</p>
+            
+    #         <p>The workflow #${{ github.run_number }} that run commit <a href="${{ github.server_url }}/${{ github.repository }}/commit/${{ env.COMMIT_FULL_ID }}">#${{ env.COMMIT_ID }}</a> from repo ${{ github.repository }} has failed.</p>
+            
+    #         <p>
+    #           After the failure, the workflow will wait for ${{ env.WAIT_SECONDS }}s before cleaning up the environment.<br />
+    #           Please check the workflow details and take appropriate action at: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    #         </p>
+            
+    #         <p>For more information, please contact the SRE team.</p>
+            
+    #         <p>
+    #         Best regards,<br />
+    #         SRE Team
+    #         </p>
+    #     to: phamtranlinhchi02@gmail.com
+    #     from: phamtranlinhchi02@gmail.com
+  
+  # job2:
+  #   needs: job1
+  #   if: needs.job1.outputs.run_job2 == 'true'
+  #   runs-on: self-hosted
+  #   permissions:
+  #     contents: read
+  #     packages: write
+  #   steps:
+  #   - name: Test 
+  #     run: |
+  #       echo test heheh
+
+  # job3:
+  #   needs: 
+  #     - job2
+  #   if: always() && !cancelled() && needs.job1.outputs.run_job3 == 'true'
+  #   runs-on: self-hosted
+  #   permissions:
+  #     contents: read
+  #     packages: write
+  #   steps:
+  #   - name: Test 
+  #     run: |
+  
+  #       echo test
