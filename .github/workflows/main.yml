@@ -28,6 +28,7 @@ jobs:
         echo test
         echo "run_job2=false" >> $GITHUB_OUTPUT
         echo "run_job3=true" >> $GITHUB_OUTPUT
+        echo hehe
 
     # - name: Send mail to committer
     #   continue-on-error: true
