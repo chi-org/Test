@@ -7,9 +7,17 @@ on:
   pull_request: 
     branches:
     - main
+  workflow_dispatch:
+    inputs:
+      disable_cleanup_vm:
+        description: "Disable cleanup VM after testing (true/false)"
+        type: boolean
+        default: true
+
 
 jobs:
   job1:
+    if: inputs.disable_cleanup_vm == false
     outputs:
       run_job2: ${{ steps.test.outputs.run_job2 }}
       run_job3: ${{ steps.test.outputs.run_job3 }}
