@@ -30,6 +30,7 @@ jobs:
       id: test
       run: |
         echo test
+        echo ${{inputs.enable_cleanup_vm}}
         echo "run_job2=false" >> $GITHUB_OUTPUT
         echo "run_job3=true" >> $GITHUB_OUTPUT
   
