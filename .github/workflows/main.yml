@@ -9,15 +9,16 @@ on:
     - main
   workflow_dispatch:
     inputs:
-      disable_cleanup_vm:
-        description: "Disable cleanup VM after testing (true/false)"
+      enable_cleanup_vm:
+        description: "Cleanup VM after testing"
         type: boolean
         default: true
 
 
+
 jobs:
   job1:
-    if: inputs.disable_cleanup_vm == 'false'
+    if: inputs.enable_cleanup_vm == 'true'
     outputs:
       run_job2: ${{ steps.test.outputs.run_job2 }}
       run_job3: ${{ steps.test.outputs.run_job3 }}
