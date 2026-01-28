@@ -18,7 +18,7 @@ on:
 
 jobs:
   job1:
-    if: inputs.enable_cleanup_vm == 'true'
+    if: inputs.enable_cleanup_vm == true
     outputs:
       run_job2: ${{ steps.test.outputs.run_job2 }}
       run_job3: ${{ steps.test.outputs.run_job3 }}
