@@ -17,7 +17,7 @@ on:
 
 jobs:
   job1:
-    if: ${{ github.event_name != 'workflow_dispatch' || inputs.enable_cleanup_vm }}
+    if: github.event_name != 'workflow_dispatch' || inputs.enable_cleanup_vm
     outputs:
       run_job2: ${{ steps.test.outputs.run_job2 }}
       run_job3: ${{ steps.test.outputs.run_job3 }}
