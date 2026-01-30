@@ -46,7 +46,46 @@ jobs:
       run: |
         export ANSIBLE_HOST_KEY_CHECKING=False
         cd ${{ github.workspace }}/SVTECH-installation-automation
-        ansible-playbook ${{ github.workspace }}/SVTECH-installation-automation/k8s_tacgui_for_ci.yml \
+        cat <<'EOF' > inventory.yaml
+        all:
+          hosts:
+            nms-k8s:
+              ansible_host: 10.98.4.3
+              IP: 10.98.4.3
+
+          vars:
+            timezone: "Asia/Ho_Chi_Minh"
+
+            # SSH connection
+            ansible_port: 22
+            ansible_ssh_user: root
+            ansible_ssh_pass: juniper@123
+
+            # GitHub
+            GH_USERNAME: svtechnmaa
+            list_github_repo:
+              - name: stacked_charts
+                owner: chi-org
+                tag: "master"
+                commit_id: ""
+
+            # Registry
+            use_private_registry: "false"
+            private_registry: 10.98.0.121:5000
+
+            # CI flags
+            CI: "true"
+            AUTOMATION_IMAGE_TAG: "latest"
+            CHARTS_BRANCH: "main"
+
+            # Paths
+            repo_path: "/home/runner/_work/stacked_charts/stacked_charts"
+
+            # Images for testing
+            images_test: "svtech_tacacsgui"
+            tag_test: "test-v11"
+        EOF
+        ansible-playbook ${{ github.workspace }}/SVTECH-installation-automation/k8s_tacgui_for_ci.yml -i inventory.yaml
     
   
   job2:
