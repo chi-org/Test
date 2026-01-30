@@ -21,7 +21,7 @@ jobs:
     outputs:
       run_job2: ${{ steps.test.outputs.run_job2 }}
       run_job3: ${{ steps.test.outputs.run_job3 }}
-    runs-on: ubuntu-dind
+    runs-on: ansible-dind
     permissions:
       contents: read
       packages: write
@@ -33,6 +33,21 @@ jobs:
         echo ${{inputs.enable_cleanup_vm}}
         echo "run_job2=false" >> $GITHUB_OUTPUT
         echo "run_job3=true" >> $GITHUB_OUTPUT
+
+    - name: Checkout SVTECH-installation-automation
+      uses: actions/checkout@v4
+      with:
+        repository: '${{ github.repository_owner }}/SVTECH-installation-automation'
+        token: ${{ secrets.GH_TOKEN }}
+        path: SVTECH-installation-automation
+        ref: test-ansible
+
+    - name: Deploy TACGUI Stack
+      run: |
+        export ANSIBLE_HOST_KEY_CHECKING=False
+        cd ${{ github.workspace }}/SVTECH-installation-automation
+        ansible-playbook ${{ github.workspace }}/SVTECH-installation-automation/k8s_tacgui_for_ci.yml \
+    
   
   job2:
     needs: job1
