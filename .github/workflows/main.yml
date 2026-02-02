@@ -21,72 +21,30 @@ jobs:
     outputs:
       run_job2: ${{ steps.test.outputs.run_job2 }}
       run_job3: ${{ steps.test.outputs.run_job3 }}
-    runs-on: ansible-dind
+    runs-on: robot-dind
     permissions:
       contents: read
       packages: write
     steps:
-    - name: Test 
-      id: test
-      run: |
-        echo test
-        echo ${{inputs.enable_cleanup_vm}}
-        echo "run_job2=false" >> $GITHUB_OUTPUT
-        echo "run_job3=true" >> $GITHUB_OUTPUT
+      - name: Checkout SVTECH_CICD_Utilities 
+        uses: actions/checkout@v4
+        with:
+          repository: '${{ github.repository_owner }}/SVTECH_CICD_Utilities'
+          token: ${{ secrets.GH_TOKEN }}
+          path: SVTECH_CICD_Utilities
+          ref: main
 
-    - name: Checkout SVTECH-installation-automation
-      uses: actions/checkout@v4
-      with:
-        repository: '${{ github.repository_owner }}/SVTECH-installation-automation'
-        token: ${{ secrets.GH_TOKEN }}
-        path: SVTECH-installation-automation
-        ref: test-ansible
+      - name: Run TACGUI integration tests
+        if: always() && !cancelled()
+        run: |
+          sh "${{ github.workspace }}/SVTECH_CICD_Utilities/integration-test/tacgui/run_testcase.sh" -D "${{ github.workspace }}" -I .
+      - name: Upload Test result
+        if: always()
+        uses: actions/upload-artifact@v4.6.0
+        with:
+          name: robot-${{ github.job }}-result-#${{ github.run_number }}
+          path: ${{ github.workspace }}/test_result
 
-    - name: Deploy TACGUI Stack
-      run: |
-        export ANSIBLE_HOST_KEY_CHECKING=False
-        cd ${{ github.workspace }}/SVTECH-installation-automation
-        cat <<'EOF' > inventory.yaml
-        all:
-          hosts:
-            nms-k8s:
-              ansible_host: 10.98.4.3
-              IP: 10.98.4.3
-
-          vars:
-            timezone: "Asia/Ho_Chi_Minh"
-
-            # SSH connection
-            ansible_port: 22
-            ansible_ssh_user: root
-            ansible_ssh_pass: juniper@123
-
-            # GitHub
-            GH_USERNAME: svtechnmaa
-            list_github_repo:
-              - name: stacked_charts
-                owner: chi-org
-                tag: "master"
-                commit_id: ""
-
-            # Registry
-            use_private_registry: "false"
-            private_registry: 10.98.0.121:5000
-
-            # CI flags
-            CI: "true"
-            AUTOMATION_IMAGE_TAG: "latest"
-            CHARTS_BRANCH: "main"
-
-            # Paths
-            repo_path: "/home/runner/_work/stacked_charts/stacked_charts"
-
-            # Images for testing
-            images_test: "svtech_tacacsgui"
-            tag_test: "test-v11"
-        EOF
-        ansible-playbook ${{ github.workspace }}/SVTECH-installation-automation/k8s_tacgui_for_ci.yml -i inventory.yaml
-    
   
   job2:
     needs: job1
