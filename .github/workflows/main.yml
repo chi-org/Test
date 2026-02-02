@@ -40,7 +40,7 @@ jobs:
 
       - name: Fake buildvar file
         run: |
-          echo "BUILD_VERSION=1.2.3" >> "${{ github.workspace }}/build_vars.yml"
+          echo "BUILD_VERSION: 1" >> "${{ github.workspace }}/build_vars.yml"
 
       - name: Run TACGUI integration tests
         if: always() && !cancelled()
