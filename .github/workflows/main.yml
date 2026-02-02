@@ -38,6 +38,10 @@ jobs:
         run: |
           cat "${{ github.workspace }}/SVTECH_CICD_Utilities/integration-test/tacgui/robot/1-check_ui.robot"
 
+      - name: Fake buildvar file
+        run: |
+          echo "BUILD_VERSION=1.2.3" >> "${{ github.workspace }}/build_vars.yml"
+
       - name: Run TACGUI integration tests
         if: always() && !cancelled()
         run: |
