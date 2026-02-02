@@ -34,6 +34,10 @@ jobs:
           path: SVTECH_CICD_Utilities
           ref: main
 
+      - name: Echo file robot test
+        run: |
+          cat "${{ github.workspace }}/SVTECH_CICD_Utilities/integration-test/tacgui/robot/1-check_ui.robot"
+
       - name: Run TACGUI integration tests
         if: always() && !cancelled()
         run: |
