@@ -15,6 +15,9 @@ on:
         default: true
 
 
+# concurrency:
+#   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+
 jobs:
   job1:
     if: github.event_name != 'workflow_dispatch' || inputs.enable_cleanup_vm
@@ -64,7 +67,7 @@ jobs:
     steps:
     - name: Test 
       run: |
-        echo test
+        echo test heheh
 
   # job3:
   #   needs: 
