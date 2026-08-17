@@ -52,7 +52,6 @@ jobs:
         with:
           name: robot-${{ github.job }}-result-#${{ github.run_number }}
           path: ${{ github.workspace }}/test_result
-
   
   job2:
     needs: job1
