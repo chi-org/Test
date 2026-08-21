@@ -15,6 +15,9 @@ on:
         default: true
 
 
+
+
+        
 jobs:
   job1:
     if: github.event_name != 'workflow_dispatch' || inputs.enable_cleanup_vm
