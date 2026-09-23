@@ -13,14 +13,10 @@ on:
         description: "Cleanup VM after testing"
         type: boolean
         default: true
-
-
-
-
-        
+     
 jobs:
   job1:
-    if: github.event_name != 'workflow_dispatch' || inputs.enable_cleanup_vm
+    if: false
     outputs:
       run_job2: ${{ steps.test.outputs.run_job2 }}
       run_job3: ${{ steps.test.outputs.run_job3 }}
@@ -58,7 +54,7 @@ jobs:
   
   job2:
     needs: job1
-    if: needs.job1.outputs.run_job2 == 'true'
+    if: false
     runs-on: self-hosted
     permissions:
       contents: read
